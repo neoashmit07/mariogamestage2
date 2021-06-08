@@ -1,0 +1,25 @@
+stage1:
+create sprites for the scenery(ground,platform,bricks,tubes,clouds)
+add images for the sprites
+set the scene
+
+stage2:
+create mario and add animation
+make mario move with all arrow keys and spacebar
+game camera to follow mario.
+
+stage3:
+create coins, add images
+add score when touching coins
+add score when touching special bricks
+
+stage 4:
+creaing cactus plant, mushroom and turtle
+add their imgs/animations
+give them velocity accordingly
+create a variable for lives and set it to 3
+if mario touches any enemy , then one live is deducted
+if live is 0 then game over 
+
+stage 5:
+if score is 2000 then mario wins and meets princess
