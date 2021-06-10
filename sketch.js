@@ -9,7 +9,7 @@ var mario, SmarioStanding;
 var edges;
 var turtleDirection = "left";
 var bgimg;
-
+var fireball, fireballimg, fireballgrp;
 function preload() {
   bgimg = loadImage("images/scene/bg.jpg");
   groundImg = loadImage("images/scene/ground.png");
@@ -29,6 +29,7 @@ function preload() {
   SmarioWalkingLeft = loadAnimation("images/mario/SmarioLeft1.png","images/mario/SmarioLeft2.png");
   SmarioJumping = loadAnimation("images/mario/SmarioJump.png");
   SmarioJumpingLeft = loadAnimation("images/mario/SmarioLeftJump.png");
+  fireballimg = loadImage("images/mario/fireball.png");
 }
 
 function setup() {
@@ -54,7 +55,7 @@ function setup() {
   cactusGroup = new Group();
   turtleGroup = new Group();
   mushroomGroup = new Group();
-
+  fireballgrp = new Group();
   
 
 }
@@ -90,6 +91,21 @@ function draw() {
   //   mushroomGroup.setVisibleEach(false);
   // }
 
+  if(fireballgrp.isTouching(tubeGroup)){
+    fireballgrp.setVisibleEach(false);
+  }
+    
+
+  if(fireballgrp.isTouching(mushroomGroup)){
+    mushroomGroup.destroyEach();
+  }
+
+  for(var i =0; i<fireballgrp.length; i++){
+    if(fireballgrp.get(i).isTouching(cactusGroup)){
+      fireballgrp.get(i).remove();
+      cactusGroup.destroyEach();
+    }
+  }
 }
 
 function spawnClouds() {
@@ -193,6 +209,28 @@ function marioMovement(){
     mario.velocityY = -10;
   }
 
+  if(keyDown(RIGHT_ARROW)&&keyWentDown(UP_ARROW)&&keyDown("space")){
+    mario.changeAnimation("SJumping",SmarioJumping);
+    mario.velocityY = -10;
+    fireball2 = createSprite(620,527,20,20);
+    fireball2.addImage(fireballimg);
+    fireball2.x= mario.x+20;
+    fireball2.y= mario.y;
+    fireball2.velocityX = 2;
+    fireballgrp.add(fireball2);
+  }
+
+  if(keyDown(LEFT_ARROW)&&keyDown(UP_ARROW)&&keyDown("space")){
+    mario.changeAnimation("SJumpingLeft",SmarioJumpingLeft);
+    mario.velocityY = -10;
+    fireball3 = createSprite(620,527,20,20);
+    fireball3.addImage(fireballimg);
+    fireball3.x= mario.x+20;
+    fireball3.y= mario.y;
+    fireball3.velocityX = -2;
+    fireballgrp.add(fireball3);
+  }
+
   //mario jumping left
   if(keyDown(UP_ARROW) && keyDown(LEFT_ARROW)){
     mario.changeAnimation("SJumpingLeft",SmarioJumpingLeft);
@@ -204,5 +242,14 @@ function marioMovement(){
     mario.changeAnimation("SWalking",SmarioWalking);
   }
 
+  //shooting fireball when space is pressed
+  if(keyDown("space")){
+    fireball = createSprite(620,527,20,20);
+    fireball.addImage(fireballimg);
+    fireball.x= mario.x+20;
+    fireball.y= mario.y;
+    fireball.velocityX = 2;
+    fireballgrp.add(fireball);
+  }
 }
 
